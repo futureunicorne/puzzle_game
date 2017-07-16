@@ -6,7 +6,7 @@
 /*   By: hel-hadi <hel-hadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/11 18:40:05 by hel-hadi          #+#    #+#             */
-/*   Updated: 2017/07/16 20:09:39 by hel-hadi         ###   ########.fr       */
+/*   Updated: 2017/07/16 20:43:54 by hel-hadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	print_solve(int *tab, int *tab2, t_pos *pos, int tour)
 
 	ft_memset(&res, 0, sizeof(t_res));
 	printf("\nSolution en %d coups\n\n", pos->shot_colun + pos->shot_line);
-	return ;
 	if (tour == 2)
 	{
 		print_solve_bis(tab, tab2, pos, tour);
