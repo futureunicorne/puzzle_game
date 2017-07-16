@@ -6,7 +6,7 @@
 /*   By: hel-hadi <hel-hadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/12 15:04:53 by hel-hadi          #+#    #+#             */
-/*   Updated: 2017/07/16 13:52:08 by hel-hadi         ###   ########.fr       */
+/*   Updated: 2017/07/16 19:07:56 by hel-hadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,8 @@ int		resolve_colun(t_last *lst, t_pos *pos, int len)
 		{
 			if (res.i == len - 1)
 			{
-				printf("res.i = %d\n", elm->contenta[res.i]);
 				if (elm->contenta[res.i] <= 0)
-				{
-					//printf("res.i = %d\n", elm->contenta[res.i + 1]);
-					//printf("res.i = %d\n", elm->contenta[res.i + 2]);
 					return (-1);
-				}
 			}
 			res.i++;
 		}
@@ -103,7 +98,7 @@ int		find_min_colun(t_last *lst, t_pos *pos)
 	return (0);
 }
 
-void	range_tab(t_last *lst, t_last *dup, t_pos *pos)
+void	range_tab(t_last *lst, t_pos *pos)
 {
 	t_res	res;
 	t_list	*elm;
@@ -130,32 +125,41 @@ void	range_tab(t_last *lst, t_last *dup, t_pos *pos)
 		}
 		res.i++;
 	}
-
 }
 
-int		solve_coluns(t_last *lst, t_last *dup, t_pos *pos)
+int		*solve_coluns(t_last *lst, t_last *dup, t_pos *pos)
 {
 	t_res	res;
 	t_list	*tmp;
 
 	ft_memset(&res, 0, sizeof(t_res));
 	find_min_colun(lst, pos);
-	range_tab(lst, dup, pos);
+	range_tab(lst, pos);
 	tmp = lst->fin;
-	while (res.i )
-	{
-
-	}
 	while (res.i < pos->colun)
 	{
-		//printf("val = %d\n", tmp->tab_colun[res.i][1]);
-		//printf("colun = %d\n", tmp->tab_colun[res.i][2]);
 		if (resolve_colun(lst, pos, tmp->tab_colun[res.i][2]) == -1)
-			printf("oui\n");
+			res.i++;
+		else
+		{
+			action_colun(lst, pos, tmp->tab_colun[res.i][2]);
+			pos->shot_colun++;
+		}
+	}
+	res.i = 0;
+	if ((res.cut = (int*)malloc(sizeof(int) * (pos->shot_colun +  1))) == NULL)
+		return (NULL);
+	tmp = lst->fin;
+	while (res.i < pos->colun)
+	{
+		if (resolve_colun(dup, pos, tmp->tab_colun[res.i][2]) == -1)
+			res.i++;
 		else
 		{
 			action_colun(dup, pos, tmp->tab_colun[res.i][2]);
+			res.cut[res.j] = tmp->tab_colun[res.i][2];
+			res.j++;
 		}
-		res.i++;
 	}
+	return (res.cut);
 }
